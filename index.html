@@ -128,13 +128,58 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav nav ml-auto">
-					<li class="nav-item"><a href="#home-section" class="nav-link" style="border-bottom: 2px solid transparent; transition: border-color 0.3s ease;" onmouseover="this.style.borderBottomColor='#727E8B'" onmouseout="this.style.borderBottomColor='transparent'"><span>Home</span></a></li>
-					<li class="nav-item"><a href="#about-section" class="nav-link" style="border-bottom: 2px solid transparent; transition: border-color 0.3s ease;" onmouseover="this.style.borderBottomColor='#727E8B'" onmouseout="this.style.borderBottomColor='transparent'"><span>About</span></a></li>
-					<li class="nav-item"><a href="#resume-section" class="nav-link" style="border-bottom: 2px solid transparent; transition: border-color 0.3s ease;" onmouseover="this.style.borderBottomColor='#727E8B'" onmouseout="this.style.borderBottomColor='transparent'"><span>Resume</span></a></li>
-					<li class="nav-item"><a href="#project-section" class="nav-link" style="border-bottom: 2px solid transparent; transition: border-color 0.3s ease;" onmouseover="this.style.borderBottomColor='#727E8B'" onmouseout="this.style.borderBottomColor='transparent'"><span>Projects</span></a></li>
-					<li class="nav-item"><a href="#contact-section" class="nav-link" style="border-bottom: 2px solid transparent; transition: border-color 0.3s ease;" onmouseover="this.style.borderBottomColor='#727E8B'" onmouseout="this.style.borderBottomColor='transparent'"><span>Contact</span></a></li>
+					<a href="#home-section" class="nav-link"
+						style="margin-right: 20px; border: none !important; border-bottom: 2px solid transparent !important; background: transparent !important; color: white !important; font-weight: bold !important; text-decoration: none !important; display: inline-block !important; vertical-align: baseline !important; line-height: normal !important; padding-top: 0 !important; margin-top: 0 !important;"
+						onmouseover="this.style.borderBottomColor='#727E8B'"
+						onmouseout="this.style.borderBottomColor='transparent'">
+						<span style="color: white !important; font-weight: bold !important; vertical-align: baseline !important;">Home</span>
+					</a>
+
+					<a href="#about-section" class="nav-link"
+						style="margin-right: 20px; border: none !important; border-bottom: 2px solid transparent !important; background: transparent !important; color: white !important; font-weight: bold !important; text-decoration: none !important; display: inline-block !important; vertical-align: baseline !important; line-height: normal !important; padding-top: 0 !important; margin-top: 0 !important;"
+						onmouseover="this.style.borderBottomColor='#727E8B'"
+						onmouseout="this.style.borderBottomColor='transparent'">
+						<span style="color: white !important; font-weight: bold !important; vertical-align: baseline !important;">About</span>
+					</a>
+
+					<a href="#resume-section" class="nav-link"
+						style="margin-right: 20px; border: none !important; border-bottom: 2px solid transparent !important; background: transparent !important; color: white !important; font-weight: bold !important; text-decoration: none !important; display: inline-block !important; vertical-align: baseline !important; line-height: normal !important; padding-top: 0 !important; margin-top: 0 !important;"
+						onmouseover="this.style.borderBottomColor='#727E8B'"
+						onmouseout="this.style.borderBottomColor='transparent'">
+						<span style="color: white !important; font-weight: bold !important; vertical-align: baseline !important;">Resume</span>
+					</a>
+
+					<a href="#project-section" class="nav-link"
+						style="margin-right: 20px; border: none !important; border-bottom: 2px solid transparent !important; background: transparent !important; color: white !important; font-weight: bold !important; text-decoration: none !important; display: inline-block !important; vertical-align: baseline !important; line-height: normal !important; padding-top: 0 !important; margin-top: 0 !important;"
+						onmouseover="this.style.borderBottomColor='#727E8B'"
+						onmouseout="this.style.borderBottomColor='transparent'">
+						<span style="color: white !important; font-weight: bold !important; vertical-align: baseline !important;">Projects</span>
+					</a>
+
+					<a href="#contact-section" class="nav-link"
+						style="border: none !important; border-bottom: 2px solid transparent !important; background: transparent !important; color: white !important; font-weight: bold !important; text-decoration: none !important; display: inline-block !important; vertical-align: baseline !important; line-height: normal !important; padding-top: 0 !important; margin-top: 0 !important;"
+						onmouseover="this.style.borderBottomColor='#727E8B'"
+						onmouseout="this.style.borderBottomColor='transparent'">
+						<span style="color: white !important; font-weight: bold !important; vertical-align: baseline !important;">Contact</span>
+					</a>
+
 				</ul>
 			</div>
+
+			<script>
+				function setActive(element)
+				{
+					// Remove active state from all nav links
+					document.querySelectorAll('.nav-link').forEach(link =>
+					{
+						link.classList.remove('active');
+						link.style.borderBottom = '2px solid transparent';
+					});
+					// Set active state for clicked element
+					element.classList.add('active');
+					element.style.borderBottom = '2px solid #727E8B';
+				}
+			</script>
 		</div>
 	</nav>
 	<section id="home-section" class="hero">
@@ -195,16 +240,15 @@
 
 								<br>
 								<br>
-								<h2>A Python developer</h2>
+								<h2>A Junior Python developer</h2>
 								<!-- <h2 class="d-flex" style="margin-bottom: 0">With over 5 years of experience</h2> -->
 								<!-- <br> -->
 								<p>
-									<a href="https://www.linkedin.com/in/suraj-karki-124190289/"
-									class="btn py-3 px-3"
-									style="background-color: #727E8B; color: white;"
-									onmouseover="this.style.backgroundColor='#5e6873';"
-									onmouseout="this.style.backgroundColor='#727E8B';">
-									LinkedIn
+									<a href="https://www.linkedin.com/in/suraj-karki-124190289/" class="btn py-3 px-3"
+										style="background-color: #727E8B; color: white;"
+										onmouseover="this.style.backgroundColor='#5e6873';"
+										onmouseout="this.style.backgroundColor='#727E8B';">
+										LinkedIn
 									</a>
 									<a href="https://github.com/Suraj-kar"
 										class="btn btn-white btn-outline-white py-3 px-4">My works</a>
@@ -308,16 +352,15 @@
 						<div class="counter-wrap ftco-animate d-flex mt-md-3">
 							<div class="text">
 								<p class="mb-4">
-									<span class="number" data-number="5" style="color: #727E8B;">0</span> <span>+</span>
+									<span class="number" data-number="8" style="color: #727E8B;">0</span> <span>+</span>
 									<span>&nbsp; Projects completed</span>
 								</p>
 								<p>
-									<a href="https://www.linkedin.com/in/suraj-karki-124190289/"
-									class="btn py-3 px-3"
-									style="background-color: #727E8B; color: white;"
-									onmouseover="this.style.backgroundColor='#5e6873';"
-									onmouseout="this.style.backgroundColor='#727E8B';">
-									LinkedIn
+									<a href="https://www.linkedin.com/in/suraj-karki-124190289/" class="btn py-3 px-3"
+										style="background-color: #727E8B; color: white;"
+										onmouseover="this.style.backgroundColor='#5e6873';"
+										onmouseout="this.style.backgroundColor='#727E8B';">
+										LinkedIn
 									</a>
 								</p>
 
@@ -373,13 +416,11 @@
 			<div class="row justify-content-center mt-5">
 				<div class="col-md-6 text-center ftco-animate">
 					<p>
-						<a href="suraj-karki-cv.pdf"
-						class="btn py-4 px-5"
-						download
-						style="background-color: #727E8B; color: white;"
-						onmouseover="this.style.backgroundColor='#5e6873';"
-						onmouseout="this.style.backgroundColor='#727E8B';">
-						Download CV
+						<a href="suraj-karki-cv.pdf" class="btn py-4 px-5" download
+							style="background-color: #727E8B; color: white;"
+							onmouseover="this.style.backgroundColor='#5e6873';"
+							onmouseout="this.style.backgroundColor='#727E8B';">
+							Download CV
 						</a>
 					</p>
 				</div>
@@ -508,7 +549,7 @@
 				<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 					<div class="block-18">
 						<div class="text">
-							<strong class="number" data-number="5" style="color: #727E8B;">0</strong>
+							<strong class="number" data-number="8" style="color: #727E8B;">0</strong>
 							<span>Projects</span>
 						</div>
 					</div>
@@ -525,12 +566,11 @@
 						<h4> I love to solve problems &amp; uncover hidden data stories </h4>
 						<br>
 						<p>
-							<a href="https://github.com/Suraj-kar"
-							class="btn py-3 px-5"
-							style="background-color: #727E8B; color: white;"
-							onmouseover="this.style.backgroundColor='#5e6873';"
-							onmouseout="this.style.backgroundColor='#727E8B';">
-							GitHub
+							<a href="https://github.com/Suraj-kar" class="btn py-3 px-5"
+								style="background-color: #727E8B; color: white;"
+								onmouseover="this.style.backgroundColor='#5e6873';"
+								onmouseout="this.style.backgroundColor='#727E8B';">
+								GitHub
 							</a>
 						</p>
 					</div>
@@ -586,7 +626,7 @@
 							<span class="icon-globe" style="color: #727E8B;"></span>
 						</div>
 						<h3 class="mb-4">Download Resume</h3>
-						<p><a href="#">resumelink</a></p>
+						<p><a href="#resume-section">resumelink</a></p>
 					</div>
 				</div>
 
@@ -597,8 +637,7 @@
 						<div class="col-md-7 ftco-animate text-center">
 							<h2>Have a<span> Question? </span> <a
 									href="https://docs.google.com/forms/d/17ACxKhiITKT_GhI3PGlVthS7U3Vcicidu-BhMH_KK4A/edit"
-									class="btn py-3 px-5"
-									style="background-color: #727E8B; color: white;"
+									class="btn py-3 px-5" style="background-color: #727E8B; color: white;"
 									onmouseover="this.style.backgroundColor='#8692A0';"
 									onmouseout="this.style.backgroundColor='#727E8B';">
 									Click Here</a>
