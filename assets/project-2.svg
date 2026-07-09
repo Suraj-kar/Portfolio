@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="p2bg" x1="0" y1="0" x2="600" y2="400">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.08"/>
+    </linearGradient>
+    <radialGradient id="p2glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#p2bg)"/>
+  <circle cx="300" cy="200" r="120" fill="url(#p2glow)"/>
+  <!-- 3D Product (simplified car/shoe shape) -->
+  <g transform="translate(300, 200)">
+    <!-- Base shape -->
+    <ellipse cx="0" cy="40" rx="100" ry="20" fill="#1a1a2e" opacity="0.5"/>
+    <!-- Main body -->
+    <path d="M-80 20 Q-80 -30 0 -50 Q80 -30 80 20 L60 30 Q0 40 -60 30 Z" fill="#2a2a3e" stroke="#6366f1" stroke-width="1.5"/>
+    <!-- Highlight -->
+    <path d="M-60 10 Q-40 -20 0 -35 Q40 -20 60 10" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+    <!-- Detail lines -->
+    <line x1="-50" y1="5" x2="50" y2="5" stroke="#06b6d4" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-40" y1="15" x2="40" y2="15" stroke="#6366f1" stroke-width="0.5" opacity="0.3"/>
+    <!-- Rotation indicator -->
+    <circle cx="0" cy="-60" r="4" fill="#06b6d4"/>
+    <path d="M-30 -70 A30 30 0 0 1 30 -70" fill="none" stroke="#6366f1" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+  </g>
+  <!-- UI Controls -->
+  <rect x="30" y="320" width="540" height="60" rx="12" fill="#1a1a25" stroke="rgba(99,102,241,0.2)" stroke-width="1"/>
+  <rect x="50" y="340" width="80" height="20" rx="6" fill="#6366f1" opacity="0.3"/>
+  <text x="90" y="354" text-anchor="middle" fill="#a0a0b0" font-size="10" font-family="Inter, sans-serif">Color</text>
+  <rect x="150" y="340" width="80" height="20" rx="6" fill="#8b5cf6" opacity="0.3"/>
+  <text x="190" y="354" text-anchor="middle" fill="#a0a0b0" font-size="10" font-family="Inter, sans-serif">Material</text>
+  <rect x="250" y="340" width="80" height="20" rx="6" fill="#06b6d4" opacity="0.3"/>
+  <text x="290" y="354" text-anchor="middle" fill="#a0a0b0" font-size="10" font-family="Inter, sans-serif">Size</text>
+  <circle cx="480" cy="350" r="15" fill="none" stroke="#6366f1" stroke-width="2"/>
+  <path d="M475 350 L485 350 M480 345 L480 355" stroke="#6366f1" stroke-width="1.5"/>
+</svg>

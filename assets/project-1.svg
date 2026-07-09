@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" fill="none">
+  <defs>
+    <linearGradient id="p1bg" x1="0" y1="0" x2="600" y2="400">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="p1card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#p1bg)"/>
+  <!-- Dashboard mockup -->
+  <rect x="40" y="30" width="520" height="340" rx="16" fill="url(#p1card)" stroke="rgba(99,102,241,0.3)" stroke-width="1"/>
+  <!-- Sidebar -->
+  <rect x="40" y="30" width="100" height="340" rx="16" fill="#0f0f1a"/>
+  <rect x="55" y="60" width="70" height="6" rx="3" fill="#6366f1" opacity="0.6"/>
+  <rect x="55" y="80" width="50" height="4" rx="2" fill="#4a4a5a"/>
+  <rect x="55" y="95" width="60" height="4" rx="2" fill="#4a4a5a"/>
+  <rect x="55" y="110" width="45" height="4" rx="2" fill="#4a4a5a"/>
+  <!-- Header bar -->
+  <rect x="140" y="30" width="420" height="50" fill="#12121a"/>
+  <rect x="160" y="50" width="120" height="8" rx="4" fill="#6366f1" opacity="0.5"/>
+  <!-- Stats cards -->
+  <rect x="160" y="100" width="120" height="80" rx="10" fill="#1a1a25" stroke="rgba(99,102,241,0.2)" stroke-width="1"/>
+  <rect x="170" y="115" width="50" height="6" rx="3" fill="#8b5cf6" opacity="0.7"/>
+  <rect x="170" y="130" width="80" height="20" rx="4" fill="#6366f1" opacity="0.3"/>
+  <rect x="300" y="100" width="120" height="80" rx="10" fill="#1a1a25" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+  <rect x="310" y="115" width="50" height="6" rx="3" fill="#06b6d4" opacity="0.7"/>
+  <rect x="310" y="130" width="80" height="20" rx="4" fill="#06b6d4" opacity="0.3"/>
+  <rect x="440" y="100" width="100" height="80" rx="10" fill="#1a1a25" stroke="rgba(139,92,246,0.2)" stroke-width="1"/>
+  <rect x="450" y="115" width="50" height="6" rx="3" fill="#8b5cf6" opacity="0.7"/>
+  <rect x="450" y="130" width="70" height="20" rx="4" fill="#8b5cf6" opacity="0.3"/>
+  <!-- Chart area -->
+  <rect x="160" y="200" width="380" height="150" rx="10" fill="#1a1a25" stroke="rgba(99,102,241,0.15)" stroke-width="1"/>
+  <polyline points="180,320 220,280 260,290 300,240 340,250 380,200 420,220 460,180 500,190 520,170" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+  <polyline points="180,320 220,300 260,310 300,270 340,280 380,250 420,260 460,230 500,240 520,220" fill="none" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+</svg>
