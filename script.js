@@ -438,8 +438,194 @@
   }
 
   /* ==========================================================================
-     THREE.JS — HERO 3D OBJECT
+     THREE.JS — HERO 3D "SK" LOGO (holographic crystal)
      ========================================================================== */
+  function createSKTexture(variant) {
+    const size = 512;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    if (variant === 'glass') {
+      ctx.clearRect(0, 0, size, size);
+      const glow = ctx.createRadialGradient(size * 0.5, size * 0.5, 40, size * 0.5, size * 0.5, size * 0.48);
+      glow.addColorStop(0, 'rgba(129,140,248,0.35)');
+      glow.addColorStop(0.55, 'rgba(139,92,246,0.12)');
+      glow.addColorStop(1, 'rgba(6,182,212,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, size, size);
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, size, size);
+      grad.addColorStop(0, '#6366f1');
+      grad.addColorStop(0.45, '#8b5cf6');
+      grad.addColorStop(1, '#06b6d4');
+      ctx.fillStyle = grad;
+
+      const r = 110;
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.arcTo(size, 0, size, size, r);
+      ctx.arcTo(size, size, 0, size, r);
+      ctx.arcTo(0, size, 0, 0, r);
+      ctx.arcTo(0, 0, size, 0, r);
+      ctx.closePath();
+      ctx.fill();
+
+      const sheen = ctx.createLinearGradient(0, 0, size, size);
+      sheen.addColorStop(0, 'rgba(255,255,255,0.35)');
+      sheen.addColorStop(0.35, 'rgba(255,255,255,0)');
+      sheen.addColorStop(0.7, 'rgba(255,255,255,0)');
+      sheen.addColorStop(1, 'rgba(255,255,255,0.12)');
+      ctx.fillStyle = sheen;
+      ctx.fill();
+    }
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 210px Inter, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = variant === 'glass' ? 'rgba(34,211,238,0.55)' : 'rgba(0,0,0,0.28)';
+    ctx.shadowBlur = variant === 'glass' ? 28 : 16;
+    ctx.fillText('SK', size / 2, size / 2 + 10);
+
+    // Thin accent underline
+    ctx.shadowBlur = 0;
+    const lineGrad = ctx.createLinearGradient(size * 0.28, 0, size * 0.72, 0);
+    lineGrad.addColorStop(0, 'rgba(34,211,238,0)');
+    lineGrad.addColorStop(0.5, 'rgba(34,211,238,0.9)');
+    lineGrad.addColorStop(1, 'rgba(34,211,238,0)');
+    ctx.strokeStyle = lineGrad;
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(size * 0.3, size * 0.72);
+    ctx.lineTo(size * 0.7, size * 0.72);
+    ctx.stroke();
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.anisotropy = 8;
+    return texture;
+  }
+
+  function createSKLogo() {
+    const group = new THREE.Group();
+    const solidTex = createSKTexture('solid');
+    const glassTex = createSKTexture('glass');
+
+    // Core crystal badge
+    const core = new THREE.Mesh(
+      new THREE.BoxGeometry(2.15, 2.15, 0.55),
+      [
+        new THREE.MeshPhysicalMaterial({ color: 0x4f46e5, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
+        new THREE.MeshPhysicalMaterial({ color: 0x7c3aed, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
+        new THREE.MeshPhysicalMaterial({ color: 0x6366f1, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
+        new THREE.MeshPhysicalMaterial({ color: 0x06b6d4, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
+        new THREE.MeshPhysicalMaterial({
+          map: solidTex,
+          metalness: 0.4,
+          roughness: 0.18,
+          clearcoat: 1,
+          clearcoatRoughness: 0.1,
+          emissive: 0x312e81,
+          emissiveIntensity: 0.25,
+        }),
+        new THREE.MeshPhysicalMaterial({ color: 0x1e1b4b, metalness: 0.7, roughness: 0.3 }),
+      ]
+    );
+    group.add(core);
+
+    // Ghost hologram layer in front
+    const hologram = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.35, 2.35),
+      new THREE.MeshBasicMaterial({
+        map: glassTex,
+        transparent: true,
+        opacity: 0.55,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      })
+    );
+    hologram.position.z = 0.42;
+    group.add(hologram);
+
+    // Dual orbital rings
+    const ringMatA = new THREE.MeshStandardMaterial({
+      color: 0x22d3ee,
+      metalness: 1,
+      roughness: 0.1,
+      emissive: 0x0891b2,
+      emissiveIntensity: 0.7,
+    });
+    const ringMatB = new THREE.MeshStandardMaterial({
+      color: 0xa78bfa,
+      metalness: 1,
+      roughness: 0.12,
+      emissive: 0x7c3aed,
+      emissiveIntensity: 0.55,
+    });
+
+    const ringA = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.028, 16, 100), ringMatA);
+    ringA.rotation.x = Math.PI / 2.4;
+    group.add(ringA);
+
+    const ringB = new THREE.Mesh(new THREE.TorusGeometry(2.35, 0.02, 16, 100), ringMatB);
+    ringB.rotation.x = Math.PI / 1.7;
+    ringB.rotation.y = 0.4;
+    group.add(ringB);
+
+    // Crystal shards
+    const shards = [];
+    const shardGeo = new THREE.OctahedronGeometry(0.14, 0);
+    for (let i = 0; i < 6; i++) {
+      const shard = new THREE.Mesh(
+        shardGeo,
+        new THREE.MeshPhysicalMaterial({
+          color: i % 2 ? 0x22d3ee : 0x8b5cf6,
+          metalness: 0.9,
+          roughness: 0.1,
+          transparent: true,
+          opacity: 0.85,
+          emissive: i % 2 ? 0x0891b2 : 0x6d28d9,
+          emissiveIntensity: 0.4,
+        })
+      );
+      shard.userData.angle = (i / 6) * Math.PI * 2;
+      shard.userData.radius = 2.7 + (i % 3) * 0.15;
+      shard.userData.speed = 0.008 + i * 0.0015;
+      shard.userData.bob = i * 0.7;
+      group.add(shard);
+      shards.push(shard);
+    }
+
+    // Energy particles
+    const particleCount = 48;
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 1.6 + Math.random() * 1.8;
+      positions[i * 3] = Math.cos(a) * r;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 2.4;
+      positions[i * 3 + 2] = Math.sin(a) * r;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const particles = new THREE.Points(
+      pGeo,
+      new THREE.PointsMaterial({
+        color: 0xa5b4fc,
+        size: 0.045,
+        transparent: true,
+        opacity: 0.75,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    group.add(particles);
+
+    group.userData = { core, hologram, ringA, ringB, shards, particles };
+    return group;
+  }
+
   function initHero3D() {
     if (typeof THREE === 'undefined' || prefersReducedMotion) return;
 
@@ -448,6 +634,7 @@
 
     const width = container.clientWidth;
     const height = container.clientHeight;
+    if (width < 10 || height < 10) return;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -455,50 +642,28 @@
     container.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
-    camera.position.z = 5;
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 0.15, 6.4);
 
-    // Main torus knot
-    const geometry = new THREE.TorusKnotGeometry(1.2, 0.35, 128, 32);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x6366f1,
-      metalness: 0.7,
-      roughness: 0.2,
-      emissive: 0x1a1a3e,
-      emissiveIntensity: 0.3,
-    });
-    const knot = new THREE.Mesh(geometry, material);
-    scene.add(knot);
+    const logo = createSKLogo();
+    scene.add(logo);
 
-    // Orbiting spheres
-    const orbitSpheres = [];
-    for (let i = 0; i < 5; i++) {
-      const sphereGeo = new THREE.SphereGeometry(0.12, 16, 16);
-      const sphereMat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color().setHSL(0.55 + i * 0.08, 0.8, 0.6),
-        emissive: new THREE.Color().setHSL(0.55 + i * 0.08, 0.8, 0.3),
-        emissiveIntensity: 0.5,
-      });
-      const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-      sphere.userData.angle = (i / 5) * Math.PI * 2;
-      sphere.userData.radius = 2.2 + i * 0.3;
-      scene.add(sphere);
-      orbitSpheres.push(sphere);
-    }
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const key = new THREE.DirectionalLight(0xffffff, 1.15);
+    key.position.set(4, 5, 7);
+    scene.add(key);
+    const cyan = new THREE.PointLight(0x22d3ee, 1.2, 28);
+    cyan.position.set(-3.5, 2.5, 4);
+    scene.add(cyan);
+    const violet = new THREE.PointLight(0xa78bfa, 1, 26);
+    violet.position.set(3.5, -2, 3);
+    scene.add(violet);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0x8b5cf6, 1);
-    dirLight.position.set(5, 5, 5);
-    scene.add(dirLight);
-    const pointLight2 = new THREE.PointLight(0x06b6d4, 0.8, 20);
-    pointLight2.position.set(-3, 2, 4);
-    scene.add(pointLight2);
-
-    heroScene = { scene, camera, renderer, knot, orbitSpheres };
+    heroScene = { scene, camera, renderer, logo, cyan, violet };
 
     let heroMouseX = 0;
     let heroMouseY = 0;
+    container.style.pointerEvents = 'auto';
     container.addEventListener('mousemove', (e) => {
       const rect = container.getBoundingClientRect();
       heroMouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
@@ -507,19 +672,41 @@
 
     function animateHero() {
       requestAnimationFrame(animateHero);
+      const t = Date.now() * 0.001;
+      const { core, hologram, ringA, ringB, shards, particles } = logo.userData;
 
-      knot.rotation.x += 0.003;
-      knot.rotation.y += 0.005;
+      // Floating + mouse parallax
+      logo.position.y = Math.sin(t * 0.9) * 0.12;
+      logo.rotation.y = Math.sin(t * 0.45) * 0.28 + heroMouseX * 0.35;
+      logo.rotation.x = Math.sin(t * 0.35) * 0.1 + heroMouseY * 0.22;
+      logo.rotation.z = Math.sin(t * 0.25) * 0.04;
 
-      knot.rotation.y += heroMouseX * 0.01;
-      knot.rotation.x += heroMouseY * 0.01;
+      // Subtle core pulse
+      const pulse = 1 + Math.sin(t * 2.2) * 0.015;
+      core.scale.set(pulse, pulse, pulse);
+      hologram.material.opacity = 0.4 + Math.sin(t * 2) * 0.15;
 
-      orbitSpheres.forEach((sphere) => {
-        sphere.userData.angle += 0.008;
-        sphere.position.x = Math.cos(sphere.userData.angle) * sphere.userData.radius;
-        sphere.position.z = Math.sin(sphere.userData.angle) * sphere.userData.radius;
-        sphere.position.y = Math.sin(sphere.userData.angle * 2) * 0.5;
+      // Counter-rotating rings
+      ringA.rotation.z += 0.012;
+      ringB.rotation.z -= 0.008;
+
+      shards.forEach((shard) => {
+        shard.userData.angle += shard.userData.speed;
+        shard.position.x = Math.cos(shard.userData.angle) * shard.userData.radius;
+        shard.position.z = Math.sin(shard.userData.angle) * shard.userData.radius;
+        shard.position.y = Math.sin(t * 1.4 + shard.userData.bob) * 0.55;
+        shard.rotation.x += 0.02;
+        shard.rotation.y += 0.025;
       });
+
+      particles.rotation.y += 0.0025;
+      particles.rotation.x = Math.sin(t * 0.3) * 0.08;
+
+      // Orbiting lights for shimmer
+      cyan.position.x = Math.cos(t * 0.7) * 3.5;
+      cyan.position.z = Math.sin(t * 0.7) * 3.5;
+      violet.position.x = Math.cos(t * 0.55 + 2) * 3.2;
+      violet.position.z = Math.sin(t * 0.55 + 2) * 3.2;
 
       renderer.render(scene, camera);
     }
@@ -528,6 +715,7 @@
     const resizeObserver = new ResizeObserver(() => {
       const w = container.clientWidth;
       const h = container.clientHeight;
+      if (w < 10 || h < 10) return;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
