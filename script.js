@@ -260,8 +260,7 @@
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    tl.from('.hero__badge', { opacity: 0, y: 30, duration: 0.6 })
-      .from('.hero__title', { opacity: 0, y: 40, duration: 0.8 }, '-=0.3')
+    tl.from('.hero__title', { opacity: 0, y: 40, duration: 0.8 })
       .from('.hero__typing', { opacity: 0, y: 20, duration: 0.5 }, '-=0.4')
       .from('.hero__desc', { opacity: 0, y: 30, duration: 0.6 }, '-=0.3')
       .from('.hero__actions', { opacity: 0, y: 20, duration: 0.5 }, '-=0.3')
