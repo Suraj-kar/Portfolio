@@ -440,18 +440,47 @@
   /* ==========================================================================
      THREE.JS — HERO 3D "SK" LOGO (holographic crystal)
      ========================================================================== */
+  function createRoundedRectShape(width, height, radius) {
+    const x = -width / 2;
+    const y = -height / 2;
+    const shape = new THREE.Shape();
+    shape.moveTo(x + radius, y);
+    shape.lineTo(x + width - radius, y);
+    shape.quadraticCurveTo(x + width, y, x + width, y + radius);
+    shape.lineTo(x + width, y + height - radius);
+    shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    shape.lineTo(x + radius, y + height);
+    shape.quadraticCurveTo(x, y + height, x, y + height - radius);
+    shape.lineTo(x, y + radius);
+    shape.quadraticCurveTo(x, y, x + radius, y);
+    return shape;
+  }
+
   function createSKTexture(variant) {
-    const size = 512;
+    const size = 1024;
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
     const ctx = canvas.getContext('2d');
 
+    const drawRoundedRect = (x, y, w, h, r) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    };
+
+    const pad = 72;
+    const faceR = 118;
+
     if (variant === 'glass') {
       ctx.clearRect(0, 0, size, size);
-      const glow = ctx.createRadialGradient(size * 0.5, size * 0.5, 40, size * 0.5, size * 0.5, size * 0.48);
-      glow.addColorStop(0, 'rgba(129,140,248,0.35)');
-      glow.addColorStop(0.55, 'rgba(139,92,246,0.12)');
+      const glow = ctx.createRadialGradient(size * 0.5, size * 0.5, 30, size * 0.5, size * 0.5, size * 0.46);
+      glow.addColorStop(0, 'rgba(165,243,252,0.28)');
+      glow.addColorStop(0.55, 'rgba(139,92,246,0.1)');
       glow.addColorStop(1, 'rgba(6,182,212,0)');
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, size, size);
@@ -461,49 +490,64 @@
       grad.addColorStop(0.45, '#8b5cf6');
       grad.addColorStop(1, '#06b6d4');
       ctx.fillStyle = grad;
-
-      const r = 110;
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.arcTo(size, 0, size, size, r);
-      ctx.arcTo(size, size, 0, size, r);
-      ctx.arcTo(0, size, 0, 0, r);
-      ctx.arcTo(0, 0, size, 0, r);
-      ctx.closePath();
+      drawRoundedRect(pad, pad, size - pad * 2, size - pad * 2, faceR);
       ctx.fill();
 
+      // Crisp outer edge
+      ctx.strokeStyle = 'rgba(255,255,255,0.42)';
+      ctx.lineWidth = 3;
+      drawRoundedRect(pad, pad, size - pad * 2, size - pad * 2, faceR);
+      ctx.stroke();
+
+      // Clean inner edge rim
+      const inset = 22;
+      ctx.strokeStyle = 'rgba(165,243,252,0.55)';
+      ctx.lineWidth = 2.5;
+      drawRoundedRect(pad + inset, pad + inset, size - (pad + inset) * 2, size - (pad + inset) * 2, faceR - 14);
+      ctx.stroke();
+
+      // Inner highlight sheen
       const sheen = ctx.createLinearGradient(0, 0, size, size);
-      sheen.addColorStop(0, 'rgba(255,255,255,0.35)');
-      sheen.addColorStop(0.35, 'rgba(255,255,255,0)');
-      sheen.addColorStop(0.7, 'rgba(255,255,255,0)');
-      sheen.addColorStop(1, 'rgba(255,255,255,0.12)');
+      sheen.addColorStop(0, 'rgba(255,255,255,0.28)');
+      sheen.addColorStop(0.4, 'rgba(255,255,255,0)');
+      sheen.addColorStop(1, 'rgba(255,255,255,0.08)');
       ctx.fillStyle = sheen;
+      drawRoundedRect(pad + inset, pad + inset, size - (pad + inset) * 2, size - (pad + inset) * 2, faceR - 14);
       ctx.fill();
     }
 
+    // Sharp SK lettering
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 210px Inter, Arial, sans-serif';
+    ctx.font = '800 420px Inter, Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = variant === 'glass' ? 'rgba(34,211,238,0.55)' : 'rgba(0,0,0,0.28)';
-    ctx.shadowBlur = variant === 'glass' ? 28 : 16;
-    ctx.fillText('SK', size / 2, size / 2 + 10);
+    if (variant === 'glass') {
+      ctx.shadowColor = 'rgba(34,211,238,0.45)';
+      ctx.shadowBlur = 12;
+    } else {
+      ctx.shadowColor = 'rgba(0,0,0,0.22)';
+      ctx.shadowBlur = 6;
+    }
+    ctx.fillText('SK', size / 2, size / 2 + 12);
 
-    // Thin accent underline
+    // Crisp underline
     ctx.shadowBlur = 0;
     const lineGrad = ctx.createLinearGradient(size * 0.28, 0, size * 0.72, 0);
     lineGrad.addColorStop(0, 'rgba(34,211,238,0)');
-    lineGrad.addColorStop(0.5, 'rgba(34,211,238,0.9)');
+    lineGrad.addColorStop(0.5, 'rgba(165,243,252,1)');
     lineGrad.addColorStop(1, 'rgba(34,211,238,0)');
     ctx.strokeStyle = lineGrad;
-    ctx.lineWidth = 6;
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
     ctx.beginPath();
-    ctx.moveTo(size * 0.3, size * 0.72);
-    ctx.lineTo(size * 0.7, size * 0.72);
+    ctx.moveTo(size * 0.32, size * 0.71);
+    ctx.lineTo(size * 0.68, size * 0.71);
     ctx.stroke();
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.anisotropy = 8;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
     return texture;
   }
 
@@ -512,40 +556,91 @@
     const solidTex = createSKTexture('solid');
     const glassTex = createSKTexture('glass');
 
-    // Core crystal badge
+    const badgeShape = createRoundedRectShape(2.15, 2.15, 0.42);
+    const badgeGeo = new THREE.ExtrudeGeometry(badgeShape, {
+      depth: 0.52,
+      bevelEnabled: true,
+      bevelThickness: 0.07,
+      bevelSize: 0.06,
+      bevelSegments: 4,
+      curveSegments: 20,
+    });
+    badgeGeo.center();
+
     const core = new THREE.Mesh(
-      new THREE.BoxGeometry(2.15, 2.15, 0.55),
-      [
-        new THREE.MeshPhysicalMaterial({ color: 0x4f46e5, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
-        new THREE.MeshPhysicalMaterial({ color: 0x7c3aed, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
-        new THREE.MeshPhysicalMaterial({ color: 0x6366f1, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
-        new THREE.MeshPhysicalMaterial({ color: 0x06b6d4, metalness: 0.85, roughness: 0.15, clearcoat: 1 }),
-        new THREE.MeshPhysicalMaterial({
-          map: solidTex,
-          metalness: 0.4,
-          roughness: 0.18,
-          clearcoat: 1,
-          clearcoatRoughness: 0.1,
-          emissive: 0x312e81,
-          emissiveIntensity: 0.25,
-        }),
-        new THREE.MeshPhysicalMaterial({ color: 0x1e1b4b, metalness: 0.7, roughness: 0.3 }),
-      ]
+      badgeGeo,
+      new THREE.MeshPhysicalMaterial({
+        color: 0x4f46e5,
+        metalness: 0.88,
+        roughness: 0.12,
+        clearcoat: 1,
+        clearcoatRoughness: 0.05,
+        emissive: 0x1e1b4b,
+        emissiveIntensity: 0.15,
+      })
     );
     group.add(core);
 
-    // Ghost hologram layer in front
+    // Front face with crisp SK texture
+    const frontFace = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.15, 2.15),
+      new THREE.MeshPhysicalMaterial({
+        map: solidTex,
+        metalness: 0.3,
+        roughness: 0.1,
+        clearcoat: 1,
+        clearcoatRoughness: 0.03,
+        transparent: true,
+        opacity: 1,
+      })
+    );
+    frontFace.position.z = 0.3;
+    group.add(frontFace);
+
+    // Crisp edge highlight lines
+    const edgeLines = new THREE.LineSegments(
+      new THREE.EdgesGeometry(badgeGeo, 24),
+      new THREE.LineBasicMaterial({
+        color: 0xa5f3fc,
+        transparent: true,
+        opacity: 0.55,
+      })
+    );
+    group.add(edgeLines);
+
+    // Inner face frame (clean finishing rim)
+    const innerFrameShape = createRoundedRectShape(1.72, 1.72, 0.32);
+    const innerFrameGeo = new THREE.ExtrudeGeometry(innerFrameShape, {
+      depth: 0.02,
+      bevelEnabled: false,
+      curveSegments: 20,
+    });
+    innerFrameGeo.center();
+    const innerFrame = new THREE.Mesh(
+      innerFrameGeo,
+      new THREE.MeshBasicMaterial({
+        color: 0xcffafe,
+        transparent: true,
+        opacity: 0.35,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+    );
+    innerFrame.position.z = 0.31;
+    group.add(innerFrame);
+
+    // Ghost hologram layer — softer so inner edges stay readable
     const hologram = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.35, 2.35),
+      new THREE.PlaneGeometry(2.2, 2.2),
       new THREE.MeshBasicMaterial({
         map: glassTex,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.32,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
       })
     );
-    hologram.position.z = 0.42;
+    hologram.position.z = 0.38;
     group.add(hologram);
 
     // Dual orbital rings
@@ -622,7 +717,7 @@
     );
     group.add(particles);
 
-    group.userData = { core, hologram, ringA, ringB, shards, particles };
+    group.userData = { core, frontFace, hologram, edgeLines, innerFrame, ringA, ringB, shards, particles };
     return group;
   }
 
@@ -673,7 +768,7 @@
     function animateHero() {
       requestAnimationFrame(animateHero);
       const t = Date.now() * 0.001;
-      const { core, hologram, ringA, ringB, shards, particles } = logo.userData;
+      const { core, frontFace, hologram, ringA, ringB, shards, particles, edgeLines, innerFrame } = logo.userData;
 
       // Floating + mouse parallax
       logo.position.y = Math.sin(t * 0.9) * 0.12;
@@ -684,7 +779,12 @@
       // Subtle core pulse
       const pulse = 1 + Math.sin(t * 2.2) * 0.015;
       core.scale.set(pulse, pulse, pulse);
-      hologram.material.opacity = 0.4 + Math.sin(t * 2) * 0.15;
+      frontFace.scale.set(pulse, pulse, pulse);
+      edgeLines.scale.set(pulse, pulse, pulse);
+      innerFrame.scale.set(pulse, pulse, pulse);
+      hologram.material.opacity = 0.28 + Math.sin(t * 2) * 0.08;
+      edgeLines.material.opacity = 0.45 + Math.sin(t * 1.8) * 0.12;
+      innerFrame.material.opacity = 0.28 + Math.sin(t * 2.4) * 0.1;
 
       // Counter-rotating rings
       ringA.rotation.z += 0.012;
