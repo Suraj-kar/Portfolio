@@ -782,6 +782,39 @@
     </div>
   </footer>
 
+  <!-- Portfolio assistant chatbot -->
+  <div class="chatbot" id="chatbot">
+    <div class="chatbot__panel" id="chatbotPanel" role="dialog" aria-labelledby="chatbotTitle" aria-hidden="true">
+      <header class="chatbot__header">
+        <div class="chatbot__header-info">
+          <span class="chatbot__avatar" aria-hidden="true">SK</span>
+          <div>
+            <h2 class="chatbot__title" id="chatbotTitle">Portfolio Assistant</h2>
+            <p class="chatbot__subtitle">Ask about Suraj&apos;s work &amp; skills</p>
+          </div>
+        </div>
+        <button type="button" class="chatbot__close" id="chatbotClose" aria-label="Close chat">
+          <i data-lucide="x"></i>
+        </button>
+      </header>
+      <div class="chatbot__messages" id="chatbotMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
+      <div class="chatbot__quick" id="chatbotQuick" aria-label="Suggested questions"></div>
+      <form class="chatbot__form" id="chatbotForm">
+        <label for="chatbotInput" class="visually-hidden">Message</label>
+        <input type="text" id="chatbotInput" class="chatbot__input" placeholder="Ask me anything..." autocomplete="off"
+          maxlength="500">
+        <button type="submit" class="chatbot__send" aria-label="Send message">
+          <i data-lucide="send"></i>
+        </button>
+      </form>
+    </div>
+    <button type="button" class="chatbot__toggle" id="chatbotToggle" aria-label="Open portfolio assistant chat"
+      aria-expanded="false" aria-controls="chatbotPanel">
+      <i data-lucide="message-circle" class="chatbot__toggle-icon chatbot__toggle-icon--open"></i>
+      <i data-lucide="x" class="chatbot__toggle-icon chatbot__toggle-icon--close"></i>
+    </button>
+  </div>
+
   <!-- Back to top -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
     <i data-lucide="arrow-up"></i>

@@ -36,6 +36,7 @@
     initTestimonials();
     initFAQ();
     initContactForm();
+    initChatbot();
     initBackToTop();
     initParallax();
     initMouseParallax();
@@ -1021,6 +1022,210 @@
         `<a href="${GOOGLE_FORM_URL}" target="_blank" rel="noopener noreferrer" class="form-status__link">submit here</a>` +
         ' to contact me.';
     });
+  }
+
+  /* ==========================================================================
+     PORTFOLIO CHATBOT (FAQ-style assistant, no external API)
+     ========================================================================== */
+  const CHATBOT_QUICK_REPLIES = [
+    'What do you do?',
+    'Tech stack',
+    'View projects',
+    'How to contact?',
+  ];
+
+  function initChatbot() {
+    const root = document.getElementById('chatbot');
+    const panel = document.getElementById('chatbotPanel');
+    const toggle = document.getElementById('chatbotToggle');
+    const closeBtn = document.getElementById('chatbotClose');
+    const form = document.getElementById('chatbotForm');
+    const input = document.getElementById('chatbotInput');
+    const messagesEl = document.getElementById('chatbotMessages');
+    const quickEl = document.getElementById('chatbotQuick');
+    if (!root || !panel || !toggle || !form || !input || !messagesEl || !quickEl) return;
+
+    let greeted = false;
+
+    function renderQuickReplies() {
+      quickEl.innerHTML = '';
+      CHATBOT_QUICK_REPLIES.forEach((label) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chatbot__quick-btn';
+        btn.textContent = label;
+        btn.addEventListener('click', () => handleUserMessage(label));
+        quickEl.appendChild(btn);
+      });
+    }
+
+    function scrollMessagesToEnd() {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function appendMessage(text, role, options = {}) {
+      const row = document.createElement('div');
+      row.className = `chatbot__message chatbot__message--${role}`;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'chatbot__bubble';
+      if (options.html) {
+        bubble.innerHTML = text;
+      } else {
+        bubble.textContent = text;
+      }
+
+      row.appendChild(bubble);
+      messagesEl.appendChild(row);
+      scrollMessagesToEnd();
+
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons({ nodes: [bubble] });
+      }
+    }
+
+    function showTyping() {
+      const row = document.createElement('div');
+      row.className = 'chatbot__message chatbot__message--bot chatbot__message--typing';
+      row.setAttribute('aria-hidden', 'true');
+      row.innerHTML =
+        '<div class="chatbot__bubble chatbot__typing"><span></span><span></span><span></span></div>';
+      messagesEl.appendChild(row);
+      scrollMessagesToEnd();
+      return row;
+    }
+
+    function getBotReply(raw) {
+      const q = raw.toLowerCase().trim();
+      if (!q) {
+        return 'Type a question or tap one of the suggestions below.';
+      }
+
+      if (/^(hi|hello|hey|yo|namaste|good (morning|afternoon|evening))\b/.test(q)) {
+        return "Hi! I'm Suraj's portfolio assistant. Ask about his skills, projects, experience, or how to get in touch.";
+      }
+
+      if (/who (are you|is suraj)|about (you|suraj)|tell me about/.test(q)) {
+        return 'Suraj Karki is a Python developer based in Nepal with around 2 years of experience. He builds web and mobile apps with Django, REST APIs, WebSockets, and collaborates on Flutter / Next.js front ends. BSc in CS & IT.';
+      }
+
+      if (/skill|tech|stack|technolog|python|django|flutter|javascript|sql|websocket|docker|aws/.test(q)) {
+        return 'Main stack: Python, Django, SQL (PostgreSQL & MySQL), HTML, CSS, JavaScript, REST APIs, WebSockets, Docker, AWS, and basic FastAPI. Mobile work often uses REST APIs with Flutter or Next.js.';
+      }
+
+      if (/project|portfolio|work|github|built/.test(q)) {
+        return 'Featured work includes Stock Price Prediction, Netflix Clone, Tweet app, Real-time Chat, and professional projects at Bichitras Group and Prixa Technologies. <a href="#portfolio" class="chatbot__link">Browse the portfolio section</a> or see <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a>.';
+      }
+
+      if (/service|what do you do|offer|hire|freelance|collaborat/.test(q)) {
+        return 'Services: web & mobile development (Django backends, REST APIs), data & SQL projects, and real-time apps (chat, auth, WebSockets). <a href="#services" class="chatbot__link">See services</a> or <a href="#contact" class="chatbot__link">get in touch</a>.';
+      }
+
+      if (/contact|email|reach|message|talk|whatsapp/.test(q)) {
+        return 'Email <a href="mailto:surajkarki.work@gmail.com" class="chatbot__link">surajkarki.work@gmail.com</a>, use the <a href="#contact" class="chatbot__link">contact form</a>, or connect on <a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a>.';
+      }
+
+      if (/linkedin|github|twitter|social/.test(q)) {
+        return '<a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a> · <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a> · <a href="https://x.com/Suurraajjjjjj" target="_blank" rel="noopener noreferrer" class="chatbot__link">Twitter</a>';
+      }
+
+      if (/experience|year|background|job|career/.test(q)) {
+        return 'Around 2 years of professional experience building Django web apps, mobile backends, and real-time systems. He has worked with Bichitras Group and Prixa Technologies plus personal open-source projects.';
+      }
+
+      if (/location|where|nepal|itahari/.test(q)) {
+        return 'Suraj is based in Nepal (Itahari area). Remote collaboration is welcome.';
+      }
+
+      if (/timeline|how long|duration|weeks|deadline/.test(q)) {
+        return 'Timelines depend on scope: a focused Django app often takes about 2–3 weeks; a full-stack build with real-time features can run 5–6 weeks or more after discovery.';
+      }
+
+      if (/process|workflow|how (do you|does he) work/.test(q)) {
+        return 'Process: Discovery (requirements) → Design (wireframes) → Development (iterative demos) → Launch (testing & handoff). Same flow described in the FAQ on this page.';
+      }
+
+      if (/cv|resume|pdf/.test(q)) {
+        return 'Download the CV here: <a href="suraj-karki-cv.pdf" target="_blank" rel="noopener noreferrer" class="chatbot__link">suraj-karki-cv.pdf</a>.';
+      }
+
+      if (/price|cost|rate|budget|charge/.test(q)) {
+        return "Pricing depends on project scope and timeline. Share details via the contact form and Suraj can discuss options.";
+      }
+
+      return "I'm not sure about that. Try asking about skills, projects, services, experience, or contact—or use a suggestion below.";
+    }
+
+    function handleUserMessage(text) {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+
+      appendMessage(trimmed, 'user');
+      input.value = '';
+
+      const typingEl = showTyping();
+      const delay = prefersReducedMotion ? 0 : 450;
+
+      window.setTimeout(() => {
+        typingEl.remove();
+        const reply = getBotReply(trimmed);
+        const hasHtml = reply.includes('<a ');
+        appendMessage(reply, 'bot', { html: hasHtml });
+      }, delay);
+    }
+
+    function setOpen(open) {
+      panel.classList.toggle('chatbot__panel--open', open);
+      panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close portfolio assistant chat' : 'Open portfolio assistant chat');
+      root.classList.toggle('chatbot--open', open);
+
+      if (open) {
+        if (!greeted) {
+          greeted = true;
+          appendMessage(
+            "Hello! I can answer questions about Suraj's skills, projects, and how to reach him.",
+            'bot'
+          );
+        }
+        renderQuickReplies();
+        window.setTimeout(() => input.focus(), 200);
+      }
+    }
+
+    toggle.addEventListener('click', () => setOpen(!panel.classList.contains('chatbot__panel--open')));
+    closeBtn?.addEventListener('click', () => setOpen(false));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel.classList.contains('chatbot__panel--open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    messagesEl.addEventListener('click', (e) => {
+      const link = e.target.closest('a.chatbot__link[href^="#"]');
+      if (!link) return;
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      setOpen(false);
+      if (target) {
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -80 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleUserMessage(input.value);
+    });
+
+    renderQuickReplies();
   }
 
   /* ==========================================================================
