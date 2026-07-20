@@ -1102,39 +1102,39 @@
       }
 
       if (/^(hi|hello|hey|yo|namaste|good (morning|afternoon|evening))\b/.test(q)) {
-        return "Hi! I'm Suraj's portfolio assistant. Ask about his skills, projects, experience, or how to get in touch.";
+        return "Hi! I'm Suraj's portfolio assistant. Ask about his skills, projects, experience or how to get in touch.";
       }
 
       if (/who (are you|is suraj)|about (you|suraj)|tell me about/.test(q)) {
-        return 'Suraj Karki is a Python developer based in Nepal with around 2 years of experience. He builds web and mobile apps with Django, REST APIs, WebSockets, and collaborates on Flutter / Next.js front ends. BSc in CS & IT.';
+        return 'Suraj Karki is a Python developer based in Nepal with around 2 years of experience. He builds web and mobile apps with Django, REST APIs, WebSockets and collaborates on Flutter / Next.js front ends. BSc in CS & IT.';
       }
 
       if (/skill|tech|stack|technolog|python|django|flutter|javascript|sql|websocket|docker|aws/.test(q)) {
-        return 'Main stack: Python, Django, SQL (PostgreSQL & MySQL), HTML, CSS, JavaScript, REST APIs, WebSockets, Docker, AWS, and basic FastAPI. Mobile work often uses REST APIs with Flutter or Next.js.';
+        return 'Main stack: Python, Django, SQL (PostgreSQL & MySQL), HTML, CSS, JavaScript, REST APIs, WebSockets, Docker, AWS and basic FastAPI. Mobile work often uses REST APIs with Flutter or Next.js.';
       }
 
       if (/project|portfolio|work|github|built/.test(q)) {
-        return 'Featured work includes Stock Price Prediction, Netflix Clone, Tweet app, Real-time Chat, and professional projects at Bichitras Group and Prixa Technologies. <a href="#portfolio" class="chatbot__link">Browse the portfolio section</a> or see <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a>.';
+        return 'Featured work includes Stock Price Prediction, Netflix Clone, Tweet app, Real-time Chat and professional projects at Bichitras Group and Prixa Technologies. <a href="#portfolio" class="chatbot__link">Browse the portfolio section</a> or see <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a>.';
       }
 
       if (/service|what do you do|offer|hire|freelance|collaborat/.test(q)) {
-        return 'Services: web & mobile development (Django backends, REST APIs), data & SQL projects, and real-time apps (chat, auth, WebSockets). <a href="#services" class="chatbot__link">See services</a> or <a href="#contact" class="chatbot__link">get in touch</a>.';
+        return 'Services: web & mobile development (Django backends, REST APIs), data & SQL projects and real-time apps (chat, auth, WebSockets). <a href="#services" class="chatbot__link">See services</a> or <a href="#contact" class="chatbot__link">get in touch</a>.';
       }
 
       if (/contact|email|reach|message|talk|whatsapp/.test(q)) {
-        return 'Email <a href="mailto:surajkarki.work@gmail.com" class="chatbot__link">surajkarki.work@gmail.com</a>, use the <a href="#contact" class="chatbot__link">contact form</a>, or connect on <a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a>.';
+        return 'Email <a href="mailto:surajkarki.work@gmail.com" class="chatbot__link">surajkarki.work@gmail.com</a>, use the <a href="#contact" class="chatbot__link">contact form</a> or connect on <a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a>.';
       }
 
-      if (/linkedin|github|twitter|social/.test(q)) {
-        return '<a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a> · <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a> · <a href="https://x.com/Suurraajjjjjj" target="_blank" rel="noopener noreferrer" class="chatbot__link">Twitter</a>';
+      if (/linkedin|github|social/.test(q)) {
+        return '<a href="https://www.linkedin.com/in/suraj-karki-124190289/" target="_blank" rel="noopener noreferrer" class="chatbot__link">LinkedIn</a> · <a href="https://github.com/Suraj-kar" target="_blank" rel="noopener noreferrer" class="chatbot__link">GitHub</a>';
       }
 
       if (/experience|year|background|job|career/.test(q)) {
-        return 'Around 2 years of professional experience building Django web apps, mobile backends, and real-time systems. He has worked with Bichitras Group and Prixa Technologies plus personal open-source projects.';
+        return 'Around 2 years of professional experience building Django web apps, mobile backends and real-time systems. He has worked with Bichitras Group and Prixa Technologies plus personal open-source projects.';
       }
 
       if (/location|where|nepal|itahari/.test(q)) {
-        return 'Suraj is based in Nepal (Itahari area). Remote collaboration is welcome.';
+        return 'Suraj is based in Nepal. Remote collaboration is welcome.';
       }
 
       if (/timeline|how long|duration|weeks|deadline/.test(q)) {
@@ -1185,7 +1185,7 @@
         if (!greeted) {
           greeted = true;
           appendMessage(
-            "Hello! I can answer questions about Suraj's skills, projects, and how to reach him.",
+            "Hello! I can answer questions about Suraj's skills, projects and how to reach him.",
             'bot'
           );
         }
